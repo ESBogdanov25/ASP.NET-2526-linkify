@@ -1,0 +1,6 @@
+@Linkify.API_HostAddress = http://localhost:5214
+
+GET {{Linkify.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
