@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Linkify.Domain.Entities;
+using Linkify.Infrastructure.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Linkify.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,12 @@ namespace Linkify.Infrastructure.Data
         {
             base.OnModelCreating(builder);
 
+            // Apply all configurations
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new PostConfiguration());
+            builder.ApplyConfiguration(new CommentConfiguration());
+            builder.ApplyConfiguration(new LikeConfiguration());
+            builder.ApplyConfiguration(new FollowConfiguration());
         }
     }
 }
