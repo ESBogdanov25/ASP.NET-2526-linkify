@@ -37,4 +37,11 @@ public class UsersController : ControllerBase
         var result = await _mediator.Send(command);
         return Ok(result);
     }
+
+    [HttpPost("upload-profile-picture")]
+    public async Task<IActionResult> UploadProfilePicture([FromForm] UploadProfilePictureCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
 }

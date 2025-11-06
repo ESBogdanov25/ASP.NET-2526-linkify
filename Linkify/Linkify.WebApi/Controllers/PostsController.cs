@@ -38,4 +38,11 @@ public class PostsController : ControllerBase
         var result = await _mediator.Send(query);
         return Ok(result);
     }
+
+    [HttpPost("upload-image")]
+    public async Task<IActionResult> UploadPostImage([FromForm] UploadPostImageCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
 }

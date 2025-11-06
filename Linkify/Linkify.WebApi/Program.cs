@@ -35,6 +35,9 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 // Add Password Service
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 
+// Add File Storage Service
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+
 // Configure JWT Authentication
 var jwtSecret = builder.Configuration["Jwt:Secret"]!;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
