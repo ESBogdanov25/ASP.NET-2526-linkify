@@ -2,30 +2,25 @@
 using Linkify.Domain.Interfaces.Repositories;
 using Linkify.Infrastructure.Data;
 using Linkify.Infrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Linkify.Infrastructure.Repositories
+namespace Linkify.Infrastructure.Repositories;
+
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly ApplicationDbContext _context;
+    private IUserRepository _users;
+    private IPostRepository _posts;
+
+    public UnitOfWork(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+    }
 
-        public UnitOfWork(ApplicationDbContext context)
-        {
-            _context = context;
-            Users = new UserRepository(_context);
-        }
+    public IUserRepository Users => _users ??= new UserRepository(_context);
+    public IPostRepository Posts => _posts ??= new PostRepository(_context);
 
-        public IUserRepository Users { get; }
-        public IPostRepository Posts { get; } // We'll implement this later
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return await _context.SaveChangesAsync();
-        }
+    public async Task<int> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync();
     }
 }

@@ -1,20 +1,17 @@
 ﻿using AutoMapper;
 using Linkify.Application.DTOs;
 using Linkify.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Linkify.Application.Mappings
+namespace Linkify.Application.Mappings;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<User, UserDto>();
-            CreateMap<Post, PostDto>();
-        }
+        CreateMap<User, UserDto>();
+
+        CreateMap<Post, PostDto>()
+            .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.Likes.Count))
+            .ForMember(dest => dest.CommentCount, opt => opt.MapFrom(src => src.Comments.Count));
     }
 }
