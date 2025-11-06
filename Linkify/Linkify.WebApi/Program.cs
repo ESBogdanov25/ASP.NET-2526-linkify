@@ -32,6 +32,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Add JWT Service
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+// Add Password Service
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+
 // Configure JWT Authentication
 var jwtSecret = builder.Configuration["Jwt:Secret"]!;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -30,4 +30,11 @@ public class UsersController : ControllerBase
         var result = await _mediator.Send(command);
         return Ok(result);
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginUserCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
 }
