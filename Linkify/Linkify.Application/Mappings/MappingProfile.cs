@@ -13,5 +13,7 @@ public class MappingProfile : Profile
         CreateMap<Post, PostDto>()
             .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.Likes.Count))
             .ForMember(dest => dest.CommentCount, opt => opt.MapFrom(src => src.Comments.Count));
+
+        CreateMap<Comment, CommentDto>();
     }
 }
