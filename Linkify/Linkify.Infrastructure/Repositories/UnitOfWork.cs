@@ -12,6 +12,7 @@ public class UnitOfWork : IUnitOfWork
     private IPostRepository _posts;
     private ILikeRepository _likes;
     private ICommentRepository _comments;
+    private IFollowRepository _follows;
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -22,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
     public IPostRepository Posts => _posts ??= new PostRepository(_context);
     public ILikeRepository Likes => _likes ??= new LikeRepository(_context);
     public ICommentRepository Comments => _comments ??= new CommentRepository(_context);
+    public IFollowRepository Follows => _follows ??= new FollowRepository(_context);
 
     public async Task<int> SaveChangesAsync()
     {

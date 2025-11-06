@@ -8,5 +8,6 @@ public interface IUnitOfWork
     IPostRepository Posts { get; }
     ILikeRepository Likes { get; }
     ICommentRepository Comments { get; }
+    IFollowRepository Follows { get; }
     Task<int> SaveChangesAsync();
 }
