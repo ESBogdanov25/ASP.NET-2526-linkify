@@ -1,6 +1,7 @@
-﻿using MediatR;
+﻿using Linkify.Application.Interfaces;
 using Linkify.Domain.Entities;
 using Linkify.Domain.Interfaces;
+using MediatR;
 
 namespace Linkify.Application.Features.Follows.Commands;
 
@@ -13,10 +14,12 @@ public class ToggleFollowCommand : IRequest<bool> // Returns true if followed, f
 public class ToggleFollowCommandHandler : IRequestHandler<ToggleFollowCommand, bool>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly INotificationService _notificationService;
 
-    public ToggleFollowCommandHandler(IUnitOfWork unitOfWork)
+    public ToggleFollowCommandHandler(IUnitOfWork unitOfWork, INotificationService notificationService)
     {
         _unitOfWork = unitOfWork;
+        _notificationService = notificationService;
     }
 
     public async Task<bool> Handle(ToggleFollowCommand request, CancellationToken cancellationToken)
@@ -48,6 +51,10 @@ public class ToggleFollowCommandHandler : IRequestHandler<ToggleFollowCommand, b
 
             await _unitOfWork.Follows.AddAsync(follow);
             await _unitOfWork.SaveChangesAsync();
+
+            // Send notification to the user being followed
+            await _notificationService.NotifyNewFollowerAsync(request.FollowedId, request.FollowerId);
+
             return true;
         }
     }

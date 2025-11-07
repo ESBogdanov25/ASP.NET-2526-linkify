@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Linkify.Application.Interfaces;
 using Linkify.Domain.Interfaces;
+using Linkify.Hubs;
 using Linkify.Infrastructure.Data;
 using Linkify.Infrastructure.Repositories;
 using Linkify.Infrastructure.Services;
@@ -21,6 +22,9 @@ builder.Services.AddSwaggerGen();
 // Add Database Context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add SignalR
+builder.Services.AddSignalR();
 
 // Add MediatR
 builder.Services.AddMediatR(cfg =>
@@ -46,6 +50,9 @@ builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 // Add File Storage Service
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+
+// Add Notification Service
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Configure JWT Authentication
 var jwtSecret = builder.Configuration["Jwt:Secret"]!;
@@ -82,5 +89,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();

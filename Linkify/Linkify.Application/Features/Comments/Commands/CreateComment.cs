@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using MediatR;
 using Linkify.Application.DTOs;
+using Linkify.Application.Interfaces;
 using Linkify.Domain.Entities;
 using Linkify.Domain.Interfaces;
+using MediatR;
 
 namespace Linkify.Application.Features.Comments.Commands;
 
@@ -17,11 +18,13 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly INotificationService _notificationService;
 
-    public CreateCommentCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public CreateCommentCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _notificationService = notificationService;
     }
 
     public async Task<CommentDto> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
@@ -44,6 +47,12 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
 
         await _unitOfWork.Comments.AddAsync(comment);
         await _unitOfWork.SaveChangesAsync();
+
+        // Send notification to post owner (if not commenting on own post)
+        if (post.UserId != request.UserId)
+        {
+            await _notificationService.NotifyNewCommentAsync(post.UserId, request.PostId, request.UserId);
+        }
 
         // Reload the comment with user data
         var createdComment = await _unitOfWork.Comments.GetByIdAsync(comment.Id);

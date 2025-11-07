@@ -1,6 +1,7 @@
-﻿using MediatR;
+﻿using Linkify.Application.Interfaces;
 using Linkify.Domain.Entities;
 using Linkify.Domain.Interfaces;
+using MediatR;
 
 namespace Linkify.Application.Features.Likes.Commands;
 
@@ -13,10 +14,12 @@ public class ToggleLikeCommand : IRequest<bool> // Returns true if liked, false 
 public class ToggleLikeCommandHandler : IRequestHandler<ToggleLikeCommand, bool>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly INotificationService _notificationService;
 
-    public ToggleLikeCommandHandler(IUnitOfWork unitOfWork)
+    public ToggleLikeCommandHandler(IUnitOfWork unitOfWork, INotificationService notificationService)
     {
         _unitOfWork = unitOfWork;
+        _notificationService = notificationService;
     }
 
     public async Task<bool> Handle(ToggleLikeCommand request, CancellationToken cancellationToken)
@@ -42,6 +45,14 @@ public class ToggleLikeCommandHandler : IRequestHandler<ToggleLikeCommand, bool>
 
             await _unitOfWork.Likes.AddAsync(like);
             await _unitOfWork.SaveChangesAsync();
+
+            // Send notification to post owner (if not liking own post)
+            var post = await _unitOfWork.Posts.GetByIdAsync(request.PostId);
+            if (post != null && post.UserId != request.UserId)
+            {
+                await _notificationService.NotifyNewLikeAsync(post.UserId, request.PostId, request.UserId);
+            }
+
             return true;
         }
     }
