@@ -1,12 +1,15 @@
-﻿using System.Text;
+﻿using FluentValidation;
 using Linkify.Application.Interfaces;
 using Linkify.Domain.Interfaces;
 using Linkify.Infrastructure.Data;
 using Linkify.Infrastructure.Repositories;
 using Linkify.Infrastructure.Services;
+using Linkify.WebApi.Middleware;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,12 @@ builder.Services.AddMediatR(cfg =>
 
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Linkify.Application.Mappings.MappingProfile));
+
+// Add FluentValidation
+builder.Services.AddValidatorsFromAssembly(typeof(Linkify.Application.DependencyInjection).Assembly);
+
+// Add MediatR Validation Behavior
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Linkify.Application.Common.Behaviors.ValidationBehavior<,>));
 
 // Add Repository Services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -62,6 +71,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Add Exception Handling Middleware
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
