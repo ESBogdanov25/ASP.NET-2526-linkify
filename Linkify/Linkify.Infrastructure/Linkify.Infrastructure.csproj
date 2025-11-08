@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Linkify.Application\Linkify.Application.csproj" />
     <ProjectReference Include="..\Linkify.Domain\Linkify.Domain.csproj" />
+    <ProjectReference Include="..\Linkify.Hubs\Linkify.Hubs.csproj" />
   </ItemGroup>
 
 </Project>
