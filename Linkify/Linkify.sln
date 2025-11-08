@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linkify.WebApi", "Linkify.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linkify.Hubs", "Linkify.Hubs\Linkify.Hubs.csproj", "{D3B0AA39-AE50-49D0-A17E-49397078B0D1}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Linkify.Client", "Linkify.Client\Linkify.Client.esproj", "{CA0F9BAF-EA5A-39A2-EF48-C2DA9EC7CF56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,12 @@ Global
 		{D3B0AA39-AE50-49D0-A17E-49397078B0D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3B0AA39-AE50-49D0-A17E-49397078B0D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3B0AA39-AE50-49D0-A17E-49397078B0D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0F9BAF-EA5A-39A2-EF48-C2DA9EC7CF56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0F9BAF-EA5A-39A2-EF48-C2DA9EC7CF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0F9BAF-EA5A-39A2-EF48-C2DA9EC7CF56}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CA0F9BAF-EA5A-39A2-EF48-C2DA9EC7CF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0F9BAF-EA5A-39A2-EF48-C2DA9EC7CF56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0F9BAF-EA5A-39A2-EF48-C2DA9EC7CF56}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
